@@ -1,8 +1,40 @@
-# React + Vite
+# Capstone Project Backend (Frontend)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Project Description
 
-Currently, two official plugins are available:
+This project is the frontend of the capstone project. It is a web application that allows users to create, read, update, and delete (CRUD) items in a database. The frontend is built using React and the backend is built using Express JS.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Installation
+
+1. Clone the repository
+
+```bash
+git clone
+```
+
+2. Install dependencies
+
+```bash
+npm install
+```
+
+3. Run the application
+
+```bash
+npm run dev
+```
+
+4. Open the application in your browser
+
+```bash
+http://localhost:5173/
+```
+
+## Dependencies
+
+-   Node JS (^20.9.0)
+-   NPM (^10.2.1)
+-   React JS (^18.2.0)
+-   React DOM (^18.2.0)
+-   React Router DOM (^6.20.1)
+-   Zustand (^4.4.7)
