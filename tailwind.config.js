@@ -13,6 +13,9 @@ export default withMT({
             fontFamily: {
                 sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
             },
+            screens: {
+                desktop: '1536px',
+            },
         },
     },
     plugins: [],

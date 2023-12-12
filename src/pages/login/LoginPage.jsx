@@ -1,4 +1,4 @@
-import CenterLayout from '@/components/CenterLayout';
+import CenterLayout from '@/layouts/CenterLayout';
 import {
     Button,
     Card,
