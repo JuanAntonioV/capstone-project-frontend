@@ -25,7 +25,7 @@ export default function MainNavbar() {
     }, []);
 
     return (
-        <header className='fixed left-0 w-full px-4 top-6'>
+        <header className='fixed left-0 z-50 w-full px-4 top-6'>
             <Navbar className='w-full px-6 py-3 mx-auto border shadow-xl max-w-7xl'>
                 <div className='flex items-center justify-between text-blue-gray-900'>
                     <Link to='/'>

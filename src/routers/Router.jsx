@@ -1,5 +1,5 @@
 import DashboardLayout from '@/layouts/DashboardLayout';
-import HomePage from '@/pages/HomePage';
+import HomePage from '@/pages/home/HomePage';
 import LoginPage from '@/pages/login/LoginPage';
 import NotFoundPage from '@/pages/notFound/NotFoundPage';
 import { Route, Routes } from 'react-router-dom';
