@@ -22,7 +22,7 @@ export default function NavMenuLists() {
     ];
 
     return (
-        <ul className='flex flex-col gap-2 pb-3 list-none lg:flex-row lg:ml-auto'>
+        <ul className='flex flex-col gap-2 pb-3 list-none lg:pb-0 lg:flex-row lg:ml-auto'>
             {menus.map((menu, index) => (
                 <li key={index} className='first:mt-6 lg:first:mt-0'>
                     <NavLink
