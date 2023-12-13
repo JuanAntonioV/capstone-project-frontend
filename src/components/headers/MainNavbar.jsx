@@ -11,14 +11,14 @@ import { MdClose, MdMenu } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { logoutApi } from '@/apis/authApi';
-import { useAuthUser, useSignOut } from 'react-auth-kit';
+import { useIsAuthenticated, useSignOut } from 'react-auth-kit';
 import toast from 'react-hot-toast';
 import LoadingText from '../ui/LoadingText';
 
 export default function MainNavbar() {
     const [openNav, setOpenNav] = useState(false);
     const navigate = useNavigate();
-    const auth = useAuthUser();
+    const isAuthenticated = useIsAuthenticated();
 
     const handleWindowResize = () =>
         window.innerWidth >= 960 && setOpenNav(false);
@@ -65,7 +65,7 @@ export default function MainNavbar() {
                     <div className='hidden lg:block'>
                         <NavMenuLists />
                     </div>
-                    {auth()?.id && (
+                    {isAuthenticated && (
                         <Button
                             color='red'
                             variant='gradient'
