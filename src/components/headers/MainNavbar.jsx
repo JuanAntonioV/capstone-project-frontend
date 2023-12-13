@@ -8,10 +8,17 @@ import {
 import { useEffect, useState } from 'react';
 import NavMenuLists from './NavMenuLists';
 import { MdClose, MdMenu } from 'react-icons/md';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useMutation } from '@tanstack/react-query';
+import { logoutApi } from '@/apis/authApi';
+import { useAuthUser, useSignOut } from 'react-auth-kit';
+import toast from 'react-hot-toast';
+import LoadingText from '../ui/LoadingText';
 
 export default function MainNavbar() {
     const [openNav, setOpenNav] = useState(false);
+    const navigate = useNavigate();
+    const auth = useAuthUser();
 
     const handleWindowResize = () =>
         window.innerWidth >= 960 && setOpenNav(false);
@@ -23,6 +30,25 @@ export default function MainNavbar() {
             window.removeEventListener('resize', handleWindowResize);
         };
     }, []);
+
+    const signOut = useSignOut();
+
+    const logoutQuery = useMutation({
+        mutationFn: logoutApi,
+        onSuccess: (res) => {
+            if (res.status) {
+                signOut();
+                navigate('/login');
+            }
+        },
+        onError: (error) => {
+            if (error.message === 'Unauthorized') {
+                signOut();
+                navigate('/login');
+            }
+            toast.error(error.message);
+        },
+    });
 
     return (
         <header className='fixed left-0 z-50 w-full px-4 top-6'>
@@ -39,14 +65,21 @@ export default function MainNavbar() {
                     <div className='hidden lg:block'>
                         <NavMenuLists />
                     </div>
-                    <Button
-                        color='red'
-                        variant='gradient'
-                        className='hidden lg:flex'
-                        size='sm'
-                    >
-                        Sign Out
-                    </Button>
+                    {auth()?.id && (
+                        <Button
+                            color='red'
+                            variant='gradient'
+                            className='hidden lg:flex'
+                            size='sm'
+                            onClick={() => logoutQuery.mutate()}
+                            disabled={logoutQuery.isPending}
+                        >
+                            <LoadingText
+                                text='Sign Out'
+                                loading={logoutQuery.isPending}
+                            />
+                        </Button>
+                    )}
                     <IconButton
                         variant='text'
                         className='w-6 h-6 ml-auto text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden'

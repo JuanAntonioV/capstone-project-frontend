@@ -1,5 +1,8 @@
+import { loginApi } from '@/apis/authApi';
+import LoadingText from '@/components/ui/LoadingText';
 import CenterLayout from '@/layouts/CenterLayout';
 import {
+    Alert,
     Button,
     Card,
     CardBody,
@@ -9,13 +12,38 @@ import {
     Input,
     Typography,
 } from '@material-tailwind/react';
+import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
+import { useSignIn } from 'react-auth-kit';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 export default function LoginPage() {
     const [form, setForm] = useState({
         email: '',
         password: '',
         isRemember: false,
+    });
+    const navigate = useNavigate();
+
+    const signIn = useSignIn();
+
+    const loginQuery = useMutation({
+        mutationFn: loginApi,
+        onSuccess: (res) => {
+            if (res.status) {
+                const { token, token_expire_in, user } = res.data;
+                signIn({
+                    token: token,
+                    authState: user,
+                    expiresIn: Number(token_expire_in),
+                });
+                navigate('/');
+            }
+        },
+        onError: (error) => {
+            toast.error(error.message);
+        },
     });
 
     const handleChange = (e) => {
@@ -28,7 +56,7 @@ export default function LoginPage() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(form);
+        loginQuery.mutate(form);
     };
 
     return (
@@ -37,17 +65,32 @@ export default function LoginPage() {
                 <CardHeader
                     variant='gradient'
                     color='blue'
-                    className='grid mb-4 h-28 place-items-center'
+                    className='grid mb-2 h-28 place-items-center'
                 >
                     <Typography variant='h3' color='white'>
                         Sign In
                     </Typography>
                 </CardHeader>
                 <CardBody>
+                    <Alert
+                        color='red'
+                        className='mb-8'
+                        open={loginQuery.isError}
+                    >
+                        {loginQuery.error?.message ? (
+                            <Typography color='white' variant='small'>
+                                {loginQuery.error.message}
+                            </Typography>
+                        ) : (
+                            <Typography color='white' variant='small'>
+                                Something went wrong!
+                            </Typography>
+                        )}
+                    </Alert>
                     <form
                         onSubmit={handleSubmit}
                         id='loginForm'
-                        className='flex flex-col gap-4'
+                        className='flex flex-col gap-4 mt-2'
                     >
                         <Input
                             label='Email'
@@ -57,6 +100,7 @@ export default function LoginPage() {
                             value={form.email}
                             required
                             autoFocus
+                            error={loginQuery.isError}
                         />
                         <Input
                             label='Password'
@@ -65,6 +109,7 @@ export default function LoginPage() {
                             onChange={handleChange}
                             value={form.password}
                             required
+                            error={loginQuery.isError}
                         />
                         <div className='-ml-2.5'>
                             <Checkbox
@@ -83,8 +128,12 @@ export default function LoginPage() {
                         color='blue'
                         form='loginForm'
                         type='submit'
+                        disabled={loginQuery.isPending}
                     >
-                        Masuk
+                        <LoadingText
+                            text={'Sign In'}
+                            loading={loginQuery.isPending}
+                        />
                     </Button>
                 </CardFooter>
             </Card>

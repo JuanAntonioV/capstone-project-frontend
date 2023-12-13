@@ -15,7 +15,7 @@ const api = axios.create({
 
 api.interceptors.request.use(async (config) => {
     try {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('auth');
         if (token) {
             config.headers.Authorization = `${token}`;
         }
@@ -24,3 +24,12 @@ api.interceptors.request.use(async (config) => {
         console.log(err);
     }
 });
+
+api.interceptors.response.use(
+    (response) => response,
+    (err) => {
+        return Promise.reject(err.response.data);
+    }
+);
+
+export default api;
