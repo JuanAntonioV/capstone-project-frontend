@@ -1,4 +1,3 @@
-import { dateFormater } from '@/utils/formaters';
 import { formatRupiah } from '@/utils/helpers';
 import { Card, Typography } from '@material-tailwind/react';
 
@@ -26,7 +25,7 @@ export default function StatItem({ item }) {
 
             <footer>
                 <Typography color='gray' variant='small'>
-                    Pada {dateFormater(item.date)}
+                    {item.description}
                 </Typography>
             </footer>
         </Card>
