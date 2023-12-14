@@ -7,6 +7,7 @@ import { ThemeProvider } from '@material-tailwind/react';
 import { AuthProvider } from 'react-auth-kit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import moment from 'moment-timezone';
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -14,9 +15,12 @@ const queryClient = new QueryClient({
             refetchOnWindowFocus: false,
             refetchOnMount: false,
             refetchOnReconnect: false,
+            retry: false,
         },
     },
 });
+
+moment.tz.setDefault('Asia/Jakarta');
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>

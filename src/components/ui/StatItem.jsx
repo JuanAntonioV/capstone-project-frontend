@@ -3,7 +3,7 @@ import { Card, Typography } from '@material-tailwind/react';
 
 export default function StatItem({ item }) {
     return (
-        <Card className={'p-4 space-y-1 bg-white  min-h-28 rounded-2xl border'}>
+        <Card className={'p-4 space-y-1 bg-white min-h-28 rounded-2xl border'}>
             <header>
                 <Typography
                     color='black'
