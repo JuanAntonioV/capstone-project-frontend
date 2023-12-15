@@ -5,7 +5,13 @@ export default function App() {
     return (
         <>
             <Router />
-            <Toaster position='bottom-right' reverseOrder={false} />
+            <Toaster
+                position='bottom-right'
+                reverseOrder={false}
+                containerStyle={{
+                    zIndex: 99991,
+                }}
+            />
         </>
     );
 }

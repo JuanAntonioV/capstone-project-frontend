@@ -18,4 +18,8 @@
     .flexBetweenCol {
         @apply flex flex-col items-center justify-between;
     }
+
+    .flexEnd {
+        @apply flex items-center justify-end;
+    }
 }

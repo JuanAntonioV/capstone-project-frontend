@@ -1,8 +1,8 @@
 import { loginApi } from '@/apis/authApi';
+import ErrorAlert from '@/components/ui/ErrorAlert';
 import LoadingText from '@/components/ui/LoadingText';
 import CenterLayout from '@/layouts/CenterLayout';
 import {
-    Alert,
     Button,
     Card,
     CardBody,
@@ -72,21 +72,10 @@ export default function LoginPage() {
                     </Typography>
                 </CardHeader>
                 <CardBody>
-                    <Alert
-                        color='red'
-                        className='mb-8'
-                        open={loginQuery.isError}
-                    >
-                        {loginQuery.error?.message ? (
-                            <Typography color='white' variant='small'>
-                                {loginQuery.error.message}
-                            </Typography>
-                        ) : (
-                            <Typography color='white' variant='small'>
-                                Something went wrong!
-                            </Typography>
-                        )}
-                    </Alert>
+                    <ErrorAlert
+                        isError={loginQuery.isError}
+                        error={loginQuery.error}
+                    />
                     <form
                         onSubmit={handleSubmit}
                         id='loginForm'

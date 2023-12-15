@@ -11,7 +11,7 @@ import {
 } from '@material-tailwind/react';
 import { MdDeleteForever, MdModeEditOutline } from 'react-icons/md';
 
-export default function ProductItem({ item }) {
+export default function ProductItem({ item, editAction, deleteAction }) {
     return (
         <Card className='overflow-hidden bg-white border rounded-lg shadow-md'>
             <CardHeader
@@ -50,11 +50,17 @@ export default function ProductItem({ item }) {
             </CardBody>
             <CardFooter className='pt-0 flexCenter'>
                 <ButtonGroup fullWidth variant='outlined'>
-                    <Button className='flex items-center w-full gap-2 text-blue-500 border-blue-500'>
+                    <Button
+                        className='flex items-center w-full gap-2 text-blue-500 border-blue-500'
+                        onClick={editAction}
+                    >
                         <MdModeEditOutline size={20} />
                         <span>Edit</span>
                     </Button>
-                    <Button className='flex items-center w-full gap-2 text-red-500 border-red-500'>
+                    <Button
+                        className='flex items-center w-full gap-2 text-red-500 border-red-500'
+                        onClick={() => deleteAction(item)}
+                    >
                         <MdDeleteForever size={20} />
                         Hapus
                     </Button>
