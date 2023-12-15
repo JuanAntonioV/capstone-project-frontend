@@ -65,7 +65,7 @@ export default function MainNavbar() {
                     <div className='hidden lg:block'>
                         <NavMenuLists />
                     </div>
-                    {isAuthenticated && (
+                    {isAuthenticated() && (
                         <Button
                             color='red'
                             variant='gradient'

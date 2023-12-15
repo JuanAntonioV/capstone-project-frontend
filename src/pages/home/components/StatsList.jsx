@@ -1,9 +1,8 @@
 import { getStatsApi } from '@/apis/analitycApi';
+import RetryFetch from '@/components/ui/RetryFetch';
 import StatItem from '@/components/ui/StatItem';
 import StatItemSkeleton from '@/components/ui/StatItemSkeleton';
-import { Button, Typography } from '@material-tailwind/react';
 import { useQuery } from '@tanstack/react-query';
-import { TfiReload } from 'react-icons/tfi';
 
 export default function StatsList() {
     const statsQuery = useQuery({
@@ -14,20 +13,10 @@ export default function StatsList() {
 
     if (statsQuery.isError) {
         return (
-            <div className='flex-col gap-3 flexCenter'>
-                <Typography color='blue-gray' variant='paragraph'>
-                    Stat tidak dapat dimuat
-                </Typography>
-                <Button
-                    onClick={() => statsQuery.refetch()}
-                    variant='outlined'
-                    color='blue-gray'
-                    size='sm'
-                    className='flex gap-2'
-                >
-                    Retry <TfiReload />
-                </Button>
-            </div>
+            <RetryFetch
+                text='Stat tidak dapat dimuat'
+                refetchAction={() => statsQuery.refetch()}
+            />
         );
     }
 

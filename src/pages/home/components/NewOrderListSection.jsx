@@ -3,12 +3,17 @@ import SalesStatusChip from '@/components/ui/SalesStatusChip';
 import SectionTitle from '@/components/ui/SectionTitle';
 import MainTable from '@/components/ui/tables/MainTable';
 import { formatRupiah } from '@/utils/helpers';
-import { Button } from '@material-tailwind/react';
+import { Button, IconButton } from '@material-tailwind/react';
 import { useQuery } from '@tanstack/react-query';
 import moment from 'moment';
 import { useMemo } from 'react';
+import toast from 'react-hot-toast';
+import { MdManageSearch } from 'react-icons/md';
+import { useNavigate } from 'react-router-dom';
 
 export default function NewOrderListSection() {
+    const navigate = useNavigate();
+
     const fromDate = moment().startOf('day').format('YYYY-MM-DD');
     const toDate = moment().add(1, 'day').endOf('day').format('YYYY-MM-DD');
 
@@ -70,6 +75,21 @@ export default function NewOrderListSection() {
             accessorKey: 'delivery_date',
             cell: (row) => moment(row.delivery_date).format('DD MMMM YYYY'),
         },
+        {
+            header: '',
+            accessorKey: 'action',
+            cell: () => (
+                <IconButton
+                    color='blue'
+                    variant='outlined'
+                    size='sm'
+                    ripple={false}
+                    onClick={() => toast.error('Fitur ini belum tersedia')}
+                >
+                    <MdManageSearch size={18} />
+                </IconButton>
+            ),
+        },
     ];
 
     return (
@@ -77,7 +97,14 @@ export default function NewOrderListSection() {
             <SectionTitle
                 title='Pemesanan Terbaru'
                 subtitle='Pemesanan terbaru yang masuk'
-                action={<Button color='light-blue'>Buat Pemesanan</Button>}
+                action={
+                    <Button
+                        color='light-blue'
+                        onClick={() => navigate('/checkout')}
+                    >
+                        Buat Pemesanan
+                    </Button>
+                }
             />
 
             <MainTable columns={columns} data={rows} pagination />
