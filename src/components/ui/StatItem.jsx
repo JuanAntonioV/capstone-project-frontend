@@ -17,7 +17,7 @@ export default function StatItem({ item }) {
             <main>
                 <Typography color='blue' variant='h4' className='font-bold'>
                     {formatRupiah(
-                        item.value,
+                        item.value || '0',
                         item.type === 'money' ? 'Rp. ' : null
                     )}
                 </Typography>
