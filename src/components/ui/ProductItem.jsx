@@ -52,7 +52,7 @@ export default function ProductItem({ item, editAction, deleteAction }) {
                 <ButtonGroup fullWidth variant='outlined'>
                     <Button
                         className='flex items-center w-full gap-2 text-blue-500 border-blue-500'
-                        onClick={editAction}
+                        onClick={() => editAction(item)}
                     >
                         <MdModeEditOutline size={20} />
                         <span>Edit</span>

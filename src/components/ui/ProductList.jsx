@@ -9,6 +9,7 @@ import { useState } from 'react';
 import AddProductModal from './AddProductModal';
 import ConfirmationModal from './ConfirmationModal';
 import toast from 'react-hot-toast';
+import EditProductModal from './EditProductModal';
 
 export default function ProductList() {
     const [openCreate, setOpenCreate] = useState(false);
@@ -17,7 +18,12 @@ export default function ProductList() {
     const [selectedProduct, setSelectedProduct] = useState(null);
 
     const toggleCreate = () => setOpenCreate((prev) => !prev);
-    const toggleEdit = () => setOpenEdit((prev) => !prev);
+    const toggleEdit = (product) => {
+        if (product) {
+            setSelectedProduct(product);
+        }
+        setOpenEdit((prev) => !prev);
+    };
     const toggleDelete = (product) => {
         if (product) {
             setSelectedProduct(product);
@@ -95,6 +101,12 @@ export default function ProductList() {
             </main>
 
             <AddProductModal open={openCreate} toggle={toggleCreate} />
+            <EditProductModal
+                open={openEdit}
+                toggle={toggleEdit}
+                productId={selectedProduct?.id}
+            />
+
             <ConfirmationModal
                 open={openDelete}
                 toggle={() => setOpenDelete((prev) => !prev)}
