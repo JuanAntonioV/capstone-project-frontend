@@ -26,3 +26,11 @@ export const STATUS = {
     AKTIF,
     NON_AKTIF,
 };
+
+const ADMIN = 1;
+const USER = 2;
+
+export const ROLE = {
+    ADMIN,
+    USER,
+};
