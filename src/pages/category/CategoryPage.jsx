@@ -1,7 +1,7 @@
-import { deleteRoleApi, getAllRolesApi } from '@/apis/roleApi';
+import { deleteCategoryApi, getAllCategoriesApi } from '@/apis/categoryApi';
+import AddCategoryModal from '@/components/categories/AddCategoryModal';
+import EditCategoryModal from '@/components/categories/EditCategoryModal';
 import ConfirmationModal from '@/components/products/ConfirmationModal';
-import AddRoleModal from '@/components/roles/AddRoleModal';
-import EditRoleModal from '@/components/roles/EditRoleModal';
 import LoadingText from '@/components/ui/LoadingText';
 import RetryFetch from '@/components/ui/RetryFetch';
 import SectionTitle from '@/components/ui/SectionTitle';
@@ -12,24 +12,25 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 
-export default function RolePage() {
-    const [selectedRoleId, setSelectedRoleId] = useState(null);
+export default function CategoryPage() {
+    const [selectedCategoryId, setSelectedCategoryId] = useState(null);
 
-    const rolesQuery = useQuery({
-        queryKey: ['roles'],
-        queryFn: getAllRolesApi,
+    const categoryQuery = useQuery({
+        queryKey: ['category'],
+        queryFn: getAllCategoriesApi,
         select: (data) => data.data,
     });
 
     const rows = useMemo(() => {
-        if (!rolesQuery.data) return [];
+        if (!categoryQuery.data) return [];
 
-        return rolesQuery.data.map((item) => ({
+        return categoryQuery.data.map((item) => ({
             id: item.id,
             name: item.name,
             status: item.status,
+            createdAt: item.createdAt,
         }));
-    }, [rolesQuery.data]);
+    }, [categoryQuery.data]);
 
     const queryClient = useQueryClient();
 
@@ -40,7 +41,7 @@ export default function RolePage() {
     const toggleCreateModal = () => setCreateModal((prev) => !prev);
     const toggleEditModal = (id) => {
         if (id) {
-            setSelectedRoleId(id);
+            setSelectedCategoryId(id);
             setEditModal((prev) => !prev);
         } else {
             toast.error('Terjadi kesalahan');
@@ -49,18 +50,18 @@ export default function RolePage() {
 
     const toggleDeleteModal = (id) => {
         if (id) {
-            setSelectedRoleId(id);
+            setSelectedCategoryId(id);
             setOpenDelete((prev) => !prev);
         } else {
             toast.error('Terjadi kesalahan');
         }
     };
 
-    const deleteRoleQuery = useMutation({
-        mutationFn: deleteRoleApi,
+    const deleteCategoryQuery = useMutation({
+        mutationFn: deleteCategoryApi,
         onSuccess: () => {
-            queryClient.invalidateQueries('roles');
-            toast.success('Berhasil menghapus role');
+            queryClient.invalidateQueries('category');
+            toast.success('Berhasil menghapus kategori');
             setOpenDelete(false);
         },
         onError: (error) => {
@@ -68,11 +69,11 @@ export default function RolePage() {
         },
     });
 
-    const handleDeleteRole = () => {
-        if (selectedRoleId) {
-            deleteRoleQuery.mutate(selectedRoleId);
+    const handleDeleteCategory = () => {
+        if (selectedCategoryId) {
+            deleteCategoryQuery.mutate(selectedCategoryId);
         } else {
-            toast.error('Role tidak ditemukan');
+            toast.error('kategori tidak ditemukan');
         }
     };
 
@@ -82,13 +83,17 @@ export default function RolePage() {
             accessorKey: 'id',
         },
         {
-            header: 'Nama Role',
+            header: 'Nama Kategori',
             accessorKey: 'name',
         },
         {
             header: 'Status',
             accessorKey: 'status',
             cell: (row) => <StatusChip status={row.getValue('status')} />,
+        },
+        {
+            header: 'Dibuat pada',
+            accessorKey: 'createdAt',
         },
         {
             header: '',
@@ -105,11 +110,11 @@ export default function RolePage() {
                     <Button
                         color='red'
                         size='sm'
-                        disabled={deleteRoleQuery.isPending}
+                        disabled={deleteCategoryQuery.isPending}
                         onClick={() => toggleDeleteModal(row.getValue('id'))}
                     >
                         <LoadingText
-                            loading={deleteRoleQuery.isPending}
+                            loading={deleteCategoryQuery.isPending}
                             text={'Hapus'}
                         />
                     </Button>
@@ -118,11 +123,11 @@ export default function RolePage() {
         },
     ];
 
-    if (rolesQuery.isError)
+    if (categoryQuery.isError)
         return (
             <RetryFetch
-                refetchAction={rolesQuery.refetch}
-                text='Role tidak dapat dimuat'
+                refetchAction={categoryQuery.refetch}
+                text='Kategori tidak dapat dimuat'
                 className='rounded-lg bg-gray-50 h-80 flexCenter'
             />
         );
@@ -131,11 +136,11 @@ export default function RolePage() {
         <>
             <section>
                 <SectionTitle
-                    title='Semua Role'
-                    subtitle='Halaman untuk mengatur role'
+                    title='Semua Category'
+                    subtitle='Halaman untuk mengatur category'
                     action={
                         <Button color='light-blue' onClick={toggleCreateModal}>
-                            Tambah Role
+                            Tambah Category
                         </Button>
                     }
                 />
@@ -143,22 +148,22 @@ export default function RolePage() {
                 <MainTable
                     columns={columns}
                     data={rows}
-                    isLoading={rolesQuery.isLoading}
+                    isLoading={categoryQuery.isLoading}
                 />
             </section>
 
-            <AddRoleModal open={createModal} toggle={toggleCreateModal} />
-            <EditRoleModal
+            <AddCategoryModal open={createModal} toggle={toggleCreateModal} />
+            <EditCategoryModal
                 open={editModal}
                 toggle={() => setEditModal((prev) => !prev)}
-                roleId={selectedRoleId}
+                categoryId={selectedCategoryId}
             />
             <ConfirmationModal
                 open={openDelete}
                 toggle={() => setOpenDelete((prev) => !prev)}
-                title={'Hapus Role'}
-                description={'Apakah anda yakin ingin menghapus role ini?'}
-                onConfirm={handleDeleteRole}
+                title={'Hapus Kategori'}
+                description={'Apakah anda yakin ingin menghapus kategori ini?'}
+                onConfirm={handleDeleteCategory}
             />
         </>
     );
