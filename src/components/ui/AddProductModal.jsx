@@ -8,11 +8,13 @@ import { useState } from 'react';
 import { createProductApi } from '@/apis/productApi';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import ErrorAlert from './ErrorAlert';
+import UploadInput from './UploadInput';
 
 export default function AddProductModal({ open, toggle }) {
     const [form, setForm] = useState({
         name: '',
         price: '',
+        image: null,
     });
 
     const handleChange = (e) => {
@@ -22,8 +24,12 @@ export default function AddProductModal({ open, toggle }) {
             const priceFormated = formatRupiah(value);
             setForm((prev) => ({ ...prev, [name]: priceFormated }));
             return;
+        } else if (name === 'image') {
+            setForm((prev) => ({ ...prev, [name]: e.target.files[0] }));
+            return;
         } else {
             setForm((prev) => ({ ...prev, [name]: value }));
+            return;
         }
     };
 
@@ -55,6 +61,10 @@ export default function AddProductModal({ open, toggle }) {
         createProductQuery.mutate(payload);
     };
 
+    const handleClearImage = () => {
+        setForm((prev) => ({ ...prev, image: null }));
+    };
+
     return (
         <Modal
             open={open}
@@ -68,7 +78,13 @@ export default function AddProductModal({ open, toggle }) {
                     error={createProductQuery.error}
                     isError={createProductQuery.isError}
                 />
-
+                <FormGroup className={'!pb-4'}>
+                    <UploadInput
+                        formImage={form.image}
+                        onChange={handleChange}
+                        clearImage={handleClearImage}
+                    />
+                </FormGroup>
                 <FormGroup>
                     <Input
                         type='text'

@@ -9,11 +9,13 @@ import ErrorAlert from './ErrorAlert';
 import FormGroup from './FormGroup';
 import { Checkbox, Input, Spinner } from '@material-tailwind/react';
 import RetryFetch from './RetryFetch';
+import UploadInput from './UploadInput';
 
 export default function EditProductModal({ open, toggle, productId }) {
     const [form, setForm] = useState({
         name: '',
         price: '',
+        image: null,
         status: false,
     });
 
@@ -27,8 +29,12 @@ export default function EditProductModal({ open, toggle, productId }) {
         } else if (name === 'status') {
             setForm((prev) => ({ ...prev, [name]: checked }));
             return;
+        } else if (name === 'image') {
+            setForm((prev) => ({ ...prev, [name]: e.target.files[0] }));
+            return;
         } else {
             setForm((prev) => ({ ...prev, [name]: value }));
+            return;
         }
     };
 
@@ -62,6 +68,7 @@ export default function EditProductModal({ open, toggle, productId }) {
 
     const productQuery = useQuery({
         queryKey: ['product', productId],
+        enabled: Boolean(productId),
         queryFn: () => getProductByIdApi(productId),
         select: (data) => data.data,
     });
@@ -71,10 +78,15 @@ export default function EditProductModal({ open, toggle, productId }) {
             setForm({
                 name: productQuery.data.name,
                 price: formatRupiah(productQuery.data.price),
+                image: productQuery.data.image,
                 status: Boolean(productQuery.data.status),
             });
         }
     }, [productQuery.data]);
+
+    const handleClearImage = () => {
+        setForm((prev) => ({ ...prev, image: null }));
+    };
 
     return (
         <Modal
@@ -100,6 +112,14 @@ export default function EditProductModal({ open, toggle, productId }) {
                         error={updateProductQuery.error}
                         isError={updateProductQuery.isError}
                     />
+
+                    <FormGroup className={'pb-4'}>
+                        <UploadInput
+                            formImage={form.image}
+                            onChange={handleChange}
+                            clearImage={handleClearImage}
+                        />
+                    </FormGroup>
 
                     <FormGroup>
                         <Input

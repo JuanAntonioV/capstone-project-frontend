@@ -11,7 +11,11 @@ export const getProductByIdApi = async (id) => {
 };
 
 export const createProductApi = async (product) => {
-    const res = await api.post('/products', product);
+    const res = await api.post('/products', product, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
     return res.data;
 };
 
@@ -21,6 +25,10 @@ export const deleteProductApi = async (id) => {
 };
 
 export const updateProductApi = async ({ id, product }) => {
-    const res = await api.put(`/products/${id}`, product);
+    const res = await api.put(`/products/${id}`, product, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
     return res.data;
 };
