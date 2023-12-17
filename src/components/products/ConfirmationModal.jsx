@@ -1,6 +1,6 @@
 import { Typography } from '@material-tailwind/react';
 import { RiErrorWarningFill } from 'react-icons/ri';
-import Modal from './Modal';
+import Modal from '../ui/Modal';
 
 export default function ConfirmationModal({
     open,

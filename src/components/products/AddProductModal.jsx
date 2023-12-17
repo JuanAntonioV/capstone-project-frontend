@@ -1,14 +1,14 @@
 import { Input } from '@material-tailwind/react';
-import Form from './Form';
-import FormGroup from './FormGroup';
-import Modal from './Modal';
+import Form from '../ui/Form';
+import FormGroup from '../ui/FormGroup';
+import Modal from '../ui/Modal';
 import toast from 'react-hot-toast';
 import { formatRupiah, parseRupiah } from '@/utils/helpers';
 import { useState } from 'react';
 import { createProductApi } from '@/apis/productApi';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import ErrorAlert from './ErrorAlert';
-import UploadInput from './UploadInput';
+import ErrorAlert from '../ui/ErrorAlert';
+import UploadInput from '../ui/UploadInput';
 
 export default function AddProductModal({ open, toggle }) {
     const [form, setForm] = useState({
@@ -70,10 +70,10 @@ export default function AddProductModal({ open, toggle }) {
             open={open}
             toggle={toggle}
             title='Tambah Produk'
-            formId='addProduct'
+            formId='addProductModal'
             loading={createProductQuery.isPending}
         >
-            <Form id={'addProduct'} onSubmit={handleAddProduct}>
+            <Form id={'addProductModal'} onSubmit={handleAddProduct}>
                 <ErrorAlert
                     error={createProductQuery.error}
                     isError={createProductQuery.isError}

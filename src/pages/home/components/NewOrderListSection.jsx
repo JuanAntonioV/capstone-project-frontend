@@ -27,8 +27,6 @@ export default function NewOrderListSection() {
         select: (data) => data.data,
     });
 
-    console.log('newOrderQuery', newOrderQuery.data);
-
     const rows = useMemo(() => {
         if (!newOrderQuery.data) return [];
 

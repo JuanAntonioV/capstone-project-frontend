@@ -6,10 +6,10 @@ import { deleteProductApi, getAllProductsApi } from '@/apis/productApi';
 import RetryFetch from './RetryFetch';
 import ProductItemSkeleton from './ProductItemSkeleton';
 import { useState } from 'react';
-import AddProductModal from './AddProductModal';
-import ConfirmationModal from './ConfirmationModal';
+import AddProductModal from '../products/AddProductModal';
+import ConfirmationModal from '../products/ConfirmationModal';
 import toast from 'react-hot-toast';
-import EditProductModal from './EditProductModal';
+import EditProductModal from '../products/EditProductModal';
 
 export default function ProductList() {
     const [openCreate, setOpenCreate] = useState(false);

@@ -3,13 +3,13 @@ import { formatRupiah, parseRupiah } from '@/utils/helpers';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import Modal from './Modal';
-import Form from './Form';
-import ErrorAlert from './ErrorAlert';
-import FormGroup from './FormGroup';
+import Modal from '../ui/Modal';
+import Form from '../ui/Form';
+import ErrorAlert from '../ui/ErrorAlert';
+import FormGroup from '../ui/FormGroup';
 import { Checkbox, Input, Spinner } from '@material-tailwind/react';
-import RetryFetch from './RetryFetch';
-import UploadInput from './UploadInput';
+import RetryFetch from '../ui/RetryFetch';
+import UploadInput from '../ui/UploadInput';
 
 export default function EditProductModal({ open, toggle, productId }) {
     const [form, setForm] = useState({

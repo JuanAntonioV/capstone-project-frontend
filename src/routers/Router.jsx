@@ -6,6 +6,8 @@ import { RequireAuth } from 'react-auth-kit';
 import { Route, Routes } from 'react-router-dom';
 import GuestMiddleware from './GuestMiddleware';
 import ProductPage from '@/pages/products/ProductPage';
+import CheckoutPage from '@/pages/checkout/CheckoutPage';
+import RolePage from '@/pages/roles/RolePage';
 
 export default function Router() {
     return (
@@ -29,8 +31,11 @@ export default function Router() {
                     }
                 />
 
+                <Route path='/checkout' element={<CheckoutPage />} />
+
                 <Route path='/settings'>
                     <Route path='daftar-produk' element={<ProductPage />} />
+                    <Route path='roles' element={<RolePage />} />
                 </Route>
             </Route>
 

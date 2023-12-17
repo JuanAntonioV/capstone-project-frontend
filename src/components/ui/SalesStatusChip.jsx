@@ -1,4 +1,4 @@
-import { salesStatus } from '@/utils/globalEntities';
+import { SALES_STATUS } from '@/utils/globalEntities';
 
 export default function SalesStatusChip({ status }) {
     if (!status)
@@ -9,19 +9,19 @@ export default function SalesStatusChip({ status }) {
         );
 
     const colors = {
-        [salesStatus.MENUNGGU_PEMBAYARAN]: 'bg-blue-500',
-        [salesStatus.PROSES]: 'bg-orange-500',
-        [salesStatus.SELESAI]: 'bg-green-500',
-        [salesStatus.GAGAL]: 'bg-red-500',
-        [salesStatus.DIBATALKAN]: 'bg-gray-500',
+        [SALES_STATUS.MENUNGGU_PEMBAYARAN]: 'bg-blue-500',
+        [SALES_STATUS.PROSES]: 'bg-orange-500',
+        [SALES_STATUS.SELESAI]: 'bg-green-500',
+        [SALES_STATUS.GAGAL]: 'bg-red-500',
+        [SALES_STATUS.DIBATALKAN]: 'bg-gray-500',
     };
 
     const texts = {
-        [salesStatus.MENUNGGU_PEMBAYARAN]: 'Menunggu Pembayaran',
-        [salesStatus.PROSES]: 'Sedang Diproses',
-        [salesStatus.SELESAI]: 'Selesai',
-        [salesStatus.GAGAL]: 'Gagal',
-        [salesStatus.DIBATALKAN]: 'Dibatalkan',
+        [SALES_STATUS.MENUNGGU_PEMBAYARAN]: 'Menunggu Pembayaran',
+        [SALES_STATUS.PROSES]: 'Sedang Diproses',
+        [SALES_STATUS.SELESAI]: 'Selesai',
+        [SALES_STATUS.GAGAL]: 'Gagal',
+        [SALES_STATUS.DIBATALKAN]: 'Dibatalkan',
     };
 
     const color = colors[status];
