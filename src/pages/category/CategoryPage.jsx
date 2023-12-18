@@ -148,6 +148,7 @@ export default function CategoryPage() {
                 <MainTable
                     columns={columns}
                     data={rows}
+                    pagination
                     isLoading={categoryQuery.isLoading}
                 />
             </section>

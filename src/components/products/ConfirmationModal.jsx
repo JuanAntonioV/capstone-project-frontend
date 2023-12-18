@@ -10,6 +10,7 @@ export default function ConfirmationModal({
     description,
     confirmText = 'Hapus',
     cancelText = 'Batal',
+    btnActionColor = 'red',
 }) {
     return (
         <Modal
@@ -19,7 +20,7 @@ export default function ConfirmationModal({
             btnActionOnClick={onConfirm}
             btnActionText={confirmText}
             btnCloseText={cancelText}
-            btnActionColor='red'
+            btnActionColor={btnActionColor}
         >
             <div className='gap-2 pb-4 flexCenterCol'>
                 <RiErrorWarningFill size={82} className='text-yellow-700' />

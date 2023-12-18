@@ -60,7 +60,7 @@ export default function ProfilePage() {
         );
 
     return (
-        <CenterLayout className='pt-20 bg-white h-fit'>
+        <CenterLayout className='pt-20 bg-white !h-fit'>
             <Card className='w-full max-w-md p-6 border shadow-lg'>
                 <header>
                     <Typography

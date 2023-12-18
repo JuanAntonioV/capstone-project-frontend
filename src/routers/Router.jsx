@@ -10,6 +10,7 @@ import CheckoutPage from '@/pages/checkout/CheckoutPage';
 import RolePage from '@/pages/roles/RolePage';
 import CategoryPage from '@/pages/category/CategoryPage';
 import ProfilePage from '@/pages/profiles/ProfilePage';
+import AdminPage from '@/pages/admins/AdminPage';
 
 export default function Router() {
     return (
@@ -40,6 +41,7 @@ export default function Router() {
                     <Route path='roles' element={<RolePage />} />
                     <Route path='daftar-kategori' element={<CategoryPage />} />
                     <Route path='akun-saya' element={<ProfilePage />} />
+                    <Route path='admin' element={<AdminPage />} />
                 </Route>
             </Route>
 

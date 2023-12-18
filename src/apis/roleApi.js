@@ -4,6 +4,10 @@ export const getAllRolesApi = async () => {
     const res = await api.get('/roles');
     return res.data;
 };
+export const getActiveRolesApi = async () => {
+    const res = await api.get('/roles/active');
+    return res.data;
+};
 
 export const getRoleByIdApi = async (id) => {
     const res = await api.get(`/roles/${id}`);

@@ -143,6 +143,7 @@ export default function RolePage() {
                 <MainTable
                     columns={columns}
                     data={rows}
+                    pagination
                     isLoading={rolesQuery.isLoading}
                 />
             </section>
