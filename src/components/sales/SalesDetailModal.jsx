@@ -102,8 +102,6 @@ export default function SalesDetailModal({ open, toggle, salesId }) {
         }
     };
 
-    console.log(isMenungguPembayaran);
-
     return (
         <Modal
             open={open}
@@ -259,6 +257,19 @@ export default function SalesDetailModal({ open, toggle, salesId }) {
                                     className='font-semibold capitalize'
                                 >
                                     {salesDetailQuery.data?.total_item || '-'}
+                                </Typography>
+                            </div>
+                            <div className='py-2 flexBetween'>
+                                <Typography variant='small'>
+                                    Kategori
+                                </Typography>
+                                <Typography
+                                    variant='small'
+                                    color='blue-gray'
+                                    className='font-semibold capitalize'
+                                >
+                                    {salesDetailQuery.data?.category?.name ||
+                                        '-'}
                                 </Typography>
                             </div>
                         </div>

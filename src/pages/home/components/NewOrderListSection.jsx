@@ -1,28 +1,43 @@
 import { getAllTransactionApi } from '@/apis/transactionApi';
+import SalesDetailModal from '@/components/sales/SalesDetailModal';
 import SalesStatusChip from '@/components/ui/SalesStatusChip';
 import SectionTitle from '@/components/ui/SectionTitle';
 import MainTable from '@/components/ui/tables/MainTable';
+import useToggle from '@/hooks/useToggle';
 import { formatRupiah } from '@/utils/helpers';
 import { Button, IconButton } from '@material-tailwind/react';
 import { useQuery } from '@tanstack/react-query';
 import moment from 'moment';
-import { useMemo } from 'react';
-import toast from 'react-hot-toast';
+import { useMemo, useState } from 'react';
 import { MdManageSearch } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 
 export default function NewOrderListSection() {
     const navigate = useNavigate();
 
-    const fromDate = moment().startOf('day').format('YYYY-MM-DD');
-    const toDate = moment().add(1, 'day').endOf('day').format('YYYY-MM-DD');
+    const fromDate = moment().startOf('day').format('YYYY-MM-DD HH:mm:ss');
+    const toDate = moment()
+        .add(1, 'day')
+        .endOf('day')
+        .format('YYYY-MM-DD HH:mm:ss');
+    const [limit, setLimit] = useState(10);
+    const [page, setPage] = useState(1);
+    const [open, toggle] = useToggle(false);
+    const [selectedSalesId, setSelectedSalesId] = useState(null);
+
+    const handleViewSalesDetail = (salesId) => {
+        setSelectedSalesId(salesId);
+        toggle(true);
+    };
 
     const newOrderQuery = useQuery({
-        queryKey: ['newOrder'],
+        queryKey: ['newOrder', limit, page],
         queryFn: () =>
             getAllTransactionApi({
                 from: fromDate,
                 to: toDate,
+                limit,
+                page,
             }),
         select: (data) => data.data,
     });
@@ -30,7 +45,7 @@ export default function NewOrderListSection() {
     const rows = useMemo(() => {
         if (!newOrderQuery.data) return [];
 
-        return newOrderQuery.data.map((item) => ({
+        return newOrderQuery.data?.data?.map((item) => ({
             sales_id: item.id,
             customer_name: item.user?.name,
             category: item.category?.name,
@@ -75,14 +90,16 @@ export default function NewOrderListSection() {
         },
         {
             header: '',
-            accessorKey: 'action',
-            cell: () => (
+            accessorKey: 'sales_id',
+            cell: (row) => (
                 <IconButton
                     color='blue'
                     variant='outlined'
                     size='sm'
                     ripple={false}
-                    onClick={() => toast.error('Fitur ini belum tersedia')}
+                    onClick={() =>
+                        handleViewSalesDetail(row.getValue('sales_id'))
+                    }
                 >
                     <MdManageSearch size={18} />
                 </IconButton>
@@ -90,22 +107,67 @@ export default function NewOrderListSection() {
         },
     ];
 
-    return (
-        <section>
-            <SectionTitle
-                title='Pemesanan Terbaru'
-                subtitle='Pemesanan terbaru yang masuk'
-                action={
-                    <Button
-                        color='light-blue'
-                        onClick={() => navigate('/checkout')}
-                    >
-                        Buat Pemesanan
-                    </Button>
-                }
-            />
+    const canPrevPage = useMemo(() => {
+        if (!newOrderQuery.data) return false;
+        if (newOrderQuery.data?.lastPage === 1) return false;
 
-            <MainTable columns={columns} data={rows} pagination />
-        </section>
+        return page > 1;
+    }, [page, newOrderQuery.data]);
+
+    const canNextPage = useMemo(() => {
+        if (!newOrderQuery.data) return false;
+        if (newOrderQuery.data?.lastPage === 1) return false;
+
+        return page < newOrderQuery.data?.lastPage;
+    }, [page, newOrderQuery.data]);
+
+    const handlePrevPage = () => {
+        if (page <= 1) return;
+
+        setPage((old) => old - 1);
+    };
+
+    const handleNextPage = () => {
+        if (page >= newOrderQuery.data?.lastPage) return;
+
+        setPage((old) => old + 1);
+    };
+
+    return (
+        <>
+            <section>
+                <SectionTitle
+                    title='Pemesanan Terbaru'
+                    subtitle='Pemesanan terbaru yang masuk'
+                    action={
+                        <Button
+                            color='light-blue'
+                            onClick={() => navigate('/checkout')}
+                        >
+                            Buat Pemesanan
+                        </Button>
+                    }
+                />
+
+                <MainTable
+                    columns={columns}
+                    data={rows}
+                    pagination
+                    setPageSize={setLimit}
+                    nextPageAction={handleNextPage}
+                    prevPageAction={handlePrevPage}
+                    canNextPage={canNextPage}
+                    canPreviousPage={canPrevPage}
+                    pageSize={limit}
+                    currentPage={newOrderQuery.data?.page}
+                />
+            </section>
+
+            <SalesDetailModal
+                open={open}
+                toggle={toggle}
+                salesId={selectedSalesId}
+            />
+        </>
     );
 }

@@ -88,9 +88,10 @@ export default function NavMenuLists() {
                                     as={'div'}
                                     variant='small'
                                     className='font-medium'
+                                    color='blue-gray'
                                 >
                                     <ListItem
-                                        className='flex items-center gap-2 py-2 pr-4 font-medium'
+                                        className='flex items-center gap-2 py-2 pr-4 font-medium '
                                         selected={
                                             isMenuOpen || isMobileMenuOpen
                                         }
@@ -137,7 +138,7 @@ export default function NavMenuLists() {
                         </Menu>
                         <div className='block lg:hidden'>
                             <Collapse open={isMobileMenuOpen}>
-                                <ul className='grid grid-cols-3 outline-none gap-y-2 outline-0'>
+                                <ul className='flex flex-col mt-4 outline-none lg:mt-0 lg:grid lg:grid-cols-3 gap-y-4 lg:gap-y-2 outline-0'>
                                     {menu.subMenus.map((subMenu, index) => (
                                         <li key={index}>
                                             <NavLink
@@ -153,10 +154,13 @@ export default function NavMenuLists() {
                         </div>
                     </li>
                 ) : (
-                    <li key={index} className='flexCenter'>
+                    <li
+                        key={index}
+                        className='w-full text-left flexCenter lg:w-fit first:mt-6 first:lg:mt-0'
+                    >
                         <NavLink
                             to={menu.to}
-                            className='px-4 py-2 text-sm font-medium text-gray-900 rounded-md hover:bg-gray-100 hover:text-blue-gray-900'
+                            className='w-full px-3 py-2 text-sm font-medium text-gray-900 rounded-md hover:bg-gray-100 hover:text-blue-gray-900'
                         >
                             {menu.title}
                         </NavLink>
