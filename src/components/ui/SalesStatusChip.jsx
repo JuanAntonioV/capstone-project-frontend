@@ -29,7 +29,7 @@ export default function SalesStatusChip({ status }) {
 
     return (
         <span
-            className={`text-xs capitalize w-fit px-3 py-1.5 font-medium text-white rounded ${color}`}
+            className={`text-xs capitalize w-fit px-3 py-1.5 font-medium text-white rounded-lg ${color}`}
         >
             {text}
         </span>

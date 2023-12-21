@@ -13,6 +13,7 @@ export default function Modal({
     open,
     toggle,
     children,
+    size = 'xs',
     btnClose = true,
     btnCloseText = 'Close',
     btnAction = true,
@@ -22,15 +23,16 @@ export default function Modal({
     title = 'Modal',
     formId = '',
     loading = false,
+    customAction,
 }) {
     return (
         <Dialog
-            size='xs'
+            size={size}
             open={open}
             handler={toggle}
             className='bg-transparent shadow-none'
         >
-            <Card className='mx-auto w-full max-w-[32rem]'>
+            <Card className='w-full mx-auto'>
                 <header className='relative p-4 border-b'>
                     <Typography variant='h6'>{title}</Typography>
                     <MdClose
@@ -40,30 +42,39 @@ export default function Modal({
                     />
                 </header>
                 <CardBody className='flex flex-col gap-4'>{children}</CardBody>
-                <CardFooter className='gap-4 pt-2 flexEnd'>
-                    {btnClose && (
-                        <Button
-                            color='blue-gray'
-                            variant='outlined'
-                            onClick={toggle}
-                        >
-                            {btnCloseText}
-                        </Button>
+                <CardFooter
+                    className={`gap-4 pt-2 ${
+                        customAction ? 'flexBetween' : 'flexEnd'
+                    }`}
+                >
+                    {customAction && (
+                        <div className='flexStart'>{customAction}</div>
                     )}
-                    {btnAction && (
-                        <Button
-                            color={btnActionColor}
-                            onClick={btnActionOnClick}
-                            form={formId}
-                            type='submit'
-                            disabled={loading}
-                        >
-                            <LoadingText
-                                loading={loading}
-                                text={btnActionText}
-                            />
-                        </Button>
-                    )}
+                    <div className='gap-4 flexEnd'>
+                        {btnClose && (
+                            <Button
+                                color='blue-gray'
+                                variant='outlined'
+                                onClick={toggle}
+                            >
+                                {btnCloseText}
+                            </Button>
+                        )}
+                        {btnAction && (
+                            <Button
+                                color={btnActionColor}
+                                onClick={btnActionOnClick}
+                                form={formId}
+                                type='submit'
+                                disabled={loading}
+                            >
+                                <LoadingText
+                                    loading={loading}
+                                    text={btnActionText}
+                                />
+                            </Button>
+                        )}
+                    </div>
                 </CardFooter>
             </Card>
         </Dialog>

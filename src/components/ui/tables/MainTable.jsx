@@ -20,6 +20,7 @@ import {
     Button,
     ButtonGroup,
     Card,
+    Chip,
     IconButton,
     Option,
     Popover,
@@ -30,6 +31,7 @@ import {
 } from '@material-tailwind/react';
 import { TbSortAscending, TbSortDescending } from 'react-icons/tb';
 import DatePicker from '@hassanmojab/react-modern-calendar-datepicker';
+import moment from 'moment';
 
 export default function MainTable({
     addAction,
@@ -123,6 +125,39 @@ export default function MainTable({
         clearFilter();
     };
 
+    const handleFastFilter = (type = 'week') => {
+        const isTypeMonth = type === 'month';
+
+        const startDay = moment()
+            .startOf(isTypeMonth ? 'month' : 'week')
+            .date();
+        const startMonth = moment().startOf('month').month() + 1;
+        const startYear = moment().startOf('year').year();
+
+        const endDay = moment()
+            .endOf(isTypeMonth ? 'month' : 'week')
+            .date();
+        const endMonth = moment().endOf('month').month() + 1;
+        const endYear = moment().endOf('year').year();
+
+        const fromFilter = {
+            year: startYear,
+            month: startMonth,
+            day: startDay,
+        };
+
+        const toFilter = {
+            year: endYear,
+            month: endMonth,
+            day: endDay,
+        };
+
+        setFrom(fromFilter);
+        setTo(toFilter);
+        setFromDate(`${startYear}-${startMonth}-${startDay}`);
+        setToDate(`${endYear}-${endMonth}-${endDay}`);
+    };
+
     return (
         <div className='w-full h-full py-2 overflow-auto'>
             {addAction || setSearch ? (
@@ -152,14 +187,44 @@ export default function MainTable({
                                 )}
                             </PopoverHandler>
                             <PopoverContent className='p-4 space-y-4'>
-                                <Typography
-                                    variant='small'
-                                    color='blue-gray'
-                                    className='font-medium'
-                                >
-                                    Filter by Date
-                                </Typography>
-                                <div className='flex gap-2 mb-2'>
+                                <header className='flexBetween'>
+                                    <Typography
+                                        variant='small'
+                                        color='blue-gray'
+                                        className='font-medium'
+                                    >
+                                        Filter by Date
+                                    </Typography>
+                                    <div className='flex flex-wrap items-center gap-1'>
+                                        <button
+                                            onClick={() =>
+                                                handleFastFilter('week')
+                                            }
+                                        >
+                                            <Chip
+                                                value='This Week'
+                                                className='text-xs capitalize cursor-pointer'
+                                                color='green'
+                                                variant='outlined'
+                                                size='sm'
+                                            />
+                                        </button>
+                                        <button
+                                            onClick={() =>
+                                                handleFastFilter('month')
+                                            }
+                                        >
+                                            <Chip
+                                                value='This Month'
+                                                className='text-xs capitalize cursor-pointer'
+                                                color='green'
+                                                variant='outlined'
+                                                size='sm'
+                                            />
+                                        </button>
+                                    </div>
+                                </header>
+                                <div className='flex gap-2 pt-2'>
                                     <DatePicker
                                         value={from}
                                         onChange={setFrom}

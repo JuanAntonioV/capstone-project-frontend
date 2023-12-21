@@ -1,14 +1,15 @@
 import { getAllTransactionApi } from '@/apis/transactionApi';
+import SalesDetailModal from '@/components/sales/SalesDetailModal';
 import RetryFetch from '@/components/ui/RetryFetch';
 import SalesStatusChip from '@/components/ui/SalesStatusChip';
 import SectionTitle from '@/components/ui/SectionTitle';
 import MainTable from '@/components/ui/tables/MainTable';
+import useToggle from '@/hooks/useToggle';
 import { formatRupiah } from '@/utils/helpers';
 import { IconButton } from '@material-tailwind/react';
 import { useQuery } from '@tanstack/react-query';
 import moment from 'moment';
 import { useMemo, useState } from 'react';
-import toast from 'react-hot-toast';
 import { MdManageSearch } from 'react-icons/md';
 
 export default function TransactionHistory() {
@@ -17,6 +18,8 @@ export default function TransactionHistory() {
     const [page, setPage] = useState(1);
     const [fromDate, setFromDate] = useState('');
     const [toDate, setToDate] = useState('');
+    const [open, toggle] = useToggle(false);
+    const [selectedSalesId, setSelectedSalesId] = useState(null);
 
     const transactionHistoryQuery = useQuery({
         queryKey: ['transactionHistory', search, limit, page, fromDate, toDate],
@@ -30,6 +33,12 @@ export default function TransactionHistory() {
             }),
         select: (data) => data.data,
     });
+
+    const handleViewSalesDetail = (salesId) => {
+        setSelectedSalesId(salesId);
+        console.log(salesId);
+        toggle(true);
+    };
 
     const rows = useMemo(() => {
         if (!transactionHistoryQuery.data?.data) return [];
@@ -79,14 +88,16 @@ export default function TransactionHistory() {
         },
         {
             header: '',
-            accessorKey: 'action',
-            cell: () => (
+            accessorKey: 'sales_id',
+            cell: (row) => (
                 <IconButton
                     color='blue'
                     variant='outlined'
                     size='sm'
                     ripple={false}
-                    onClick={() => toast.error('Fitur ini belum tersedia')}
+                    onClick={() =>
+                        handleViewSalesDetail(row.getValue('sales_id'))
+                    }
                 >
                     <MdManageSearch size={18} />
                 </IconButton>
@@ -165,6 +176,12 @@ export default function TransactionHistory() {
                     toDate={toDate}
                 />
             </section>
+
+            <SalesDetailModal
+                open={open}
+                toggle={toggle}
+                salesId={selectedSalesId}
+            />
         </>
     );
 }

@@ -22,4 +22,8 @@
     .flexEnd {
         @apply flex items-center justify-end;
     }
+
+    .flexStart {
+        @apply flex items-center justify-start;
+    }
 }

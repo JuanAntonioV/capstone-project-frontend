@@ -49,7 +49,7 @@ export default function AddCategoryModal({ open, toggle }) {
         <Modal
             open={open}
             toggle={toggle}
-            title='Tambah Produk'
+            title='Tambah Kategori'
             formId='addCategoryModal'
             loading={createCategoryQuery.isPending}
         >
@@ -62,7 +62,7 @@ export default function AddCategoryModal({ open, toggle }) {
                     <Input
                         type='text'
                         name='name'
-                        label='Nama Produk'
+                        label='Nama Kategori'
                         className='w-full'
                         onChange={handleChange}
                         value={form.name}

@@ -49,7 +49,7 @@ export default function AddRoleModal({ open, toggle }) {
         <Modal
             open={open}
             toggle={toggle}
-            title='Tambah Produk'
+            title='Tambah Role'
             formId='addRoleModal'
             loading={createRoleQuery.isPending}
         >
@@ -62,7 +62,7 @@ export default function AddRoleModal({ open, toggle }) {
                     <Input
                         type='text'
                         name='name'
-                        label='Nama Produk'
+                        label='Nama Role'
                         className='w-full'
                         onChange={handleChange}
                         value={form.name}

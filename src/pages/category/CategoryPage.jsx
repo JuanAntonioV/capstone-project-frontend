@@ -136,11 +136,11 @@ export default function CategoryPage() {
         <>
             <section>
                 <SectionTitle
-                    title='Semua Category'
-                    subtitle='Halaman untuk mengatur category'
+                    title='Semua Kategori'
+                    subtitle='Halaman untuk mengatur kategori'
                     action={
                         <Button color='light-blue' onClick={toggleCreateModal}>
-                            Tambah Category
+                            Tambah Kategori
                         </Button>
                     }
                 />
