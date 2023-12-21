@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './styles/main.css';
+import '@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css';
 import App from './pages/App';
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from '@material-tailwind/react';

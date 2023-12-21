@@ -1,7 +1,7 @@
 import TableNoData from './TableNoData';
 import TableFilter from './TableFilter';
 
-import { MdAdd } from 'react-icons/md';
+import { MdAdd, MdClear, MdFilterList, MdFilterListOff } from 'react-icons/md';
 import { HiChevronLeft, HiChevronRight } from 'react-icons/hi';
 import TableLoading from './TableLoading';
 import {
@@ -22,10 +22,14 @@ import {
     Card,
     IconButton,
     Option,
+    Popover,
+    PopoverContent,
+    PopoverHandler,
     Select,
     Typography,
 } from '@material-tailwind/react';
 import { TbSortAscending, TbSortDescending } from 'react-icons/tb';
+import DatePicker from '@hassanmojab/react-modern-calendar-datepicker';
 
 export default function MainTable({
     addAction,
@@ -43,10 +47,18 @@ export default function MainTable({
     setSearch,
     isLoading,
     pagination,
+    filterDate,
+    fromDate,
+    toDate,
+    setFromDate,
+    setToDate,
+    clearFilter,
 }) {
     const [dataTable, setDataTable] = useState(() => [...data]);
     const [columnFilters, setColumnFilters] = useState([]);
     const [globalFilter, setGlobalFilter] = useState('');
+    const [from, setFrom] = useState(null);
+    const [to, setTo] = useState(null);
 
     useEffect(() => {
         setDataTable(data);
@@ -97,12 +109,98 @@ export default function MainTable({
         }
     };
 
+    const handleFilter = () => {
+        const fromFormated = `${from?.year}-${from?.month}-${from?.day}`;
+        const toFormated = `${to?.year}-${to?.month}-${to?.day}`;
+
+        setFromDate(fromFormated);
+        setToDate(toFormated);
+    };
+
+    const clearDateFilter = () => {
+        setFrom(null);
+        setTo(null);
+        clearFilter();
+    };
+
     return (
         <div className='w-full h-full py-2 overflow-auto'>
             {addAction || setSearch ? (
                 <div className='gap-2 mb-6 flexBetween'>
                     {setSearch && (
                         <TableFilter filter={search} setFilter={setSearch} />
+                    )}
+                    {filterDate && (
+                        <Popover placement='bottom'>
+                            <PopoverHandler>
+                                {fromDate && toDate ? (
+                                    <IconButton
+                                        color='blue-gray'
+                                        variant='outlined'
+                                        className='mr-2'
+                                    >
+                                        <MdFilterListOff size={24} />
+                                    </IconButton>
+                                ) : (
+                                    <IconButton
+                                        color='blue-gray'
+                                        variant='outlined'
+                                        className='mr-2'
+                                    >
+                                        <MdFilterList size={24} />
+                                    </IconButton>
+                                )}
+                            </PopoverHandler>
+                            <PopoverContent className='p-4 space-y-4'>
+                                <Typography
+                                    variant='small'
+                                    color='blue-gray'
+                                    className='font-medium'
+                                >
+                                    Filter by Date
+                                </Typography>
+                                <div className='flex gap-2 mb-2'>
+                                    <DatePicker
+                                        value={from}
+                                        onChange={setFrom}
+                                        inputPlaceholder='From'
+                                        shouldHighlightWeekends
+                                    />
+                                    <span className='flexCenter'>-</span>
+                                    <DatePicker
+                                        value={to}
+                                        onChange={setTo}
+                                        inputPlaceholder='To'
+                                        shouldHighlightWeekends
+                                    />
+                                </div>
+                                <div className='flex gap-2'>
+                                    {fromDate && toDate && (
+                                        <Button
+                                            onClick={clearDateFilter}
+                                            variant='filled'
+                                            color='red'
+                                            fullWidth
+                                            className='flex items-center justify-center gap-2 ml-auto text-white'
+                                        >
+                                            <MdClear size={18} />
+                                            <span>Clear</span>
+                                        </Button>
+                                    )}
+                                    <Button
+                                        onClick={handleFilter}
+                                        variant='filled'
+                                        color='blue'
+                                        fullWidth
+                                        className='flex items-center justify-center gap-2 ml-auto text-white'
+                                        disabled={!from || !to}
+                                    >
+                                        <MdAdd size={18} />
+                                        <span>Filter</span>
+                                    </Button>
+                                </div>
+                            </PopoverContent>
+                        </Popover>
                     )}
 
                     {addAction && (

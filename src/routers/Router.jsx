@@ -11,6 +11,7 @@ import RolePage from '@/pages/roles/RolePage';
 import CategoryPage from '@/pages/category/CategoryPage';
 import ProfilePage from '@/pages/profiles/ProfilePage';
 import AdminPage from '@/pages/admins/AdminPage';
+import TransactionHistory from '@/pages/transactions/TransactionHistory';
 
 export default function Router() {
     return (
@@ -35,6 +36,10 @@ export default function Router() {
                 />
 
                 <Route path='/checkout' element={<CheckoutPage />} />
+                <Route
+                    path='riwayat-transaksi'
+                    element={<TransactionHistory />}
+                />
 
                 <Route path='/settings'>
                     <Route path='daftar-produk' element={<ProductPage />} />
