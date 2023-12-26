@@ -257,7 +257,8 @@ export default function SalesDetailModal({ open, toggle, salesId }) {
                                 >
                                     {salesDetailQuery.data?.delivery_date
                                         ? moment(
-                                              salesDetailQuery.data?.pickup_date
+                                              salesDetailQuery.data
+                                                  ?.delivery_date
                                           ).format('DD MMMM YYYY')
                                         : '-'}
                                 </Typography>

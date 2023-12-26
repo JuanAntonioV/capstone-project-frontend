@@ -28,6 +28,7 @@ import { useAuthUser } from 'react-auth-kit';
 import moment from 'moment';
 import { createTransactionApi } from '@/apis/transactionApi';
 import LoadingText from '@/components/ui/LoadingText';
+import DatePicker from '@hassanmojab/react-modern-calendar-datepicker';
 
 export default function OrderPage() {
     const {
@@ -50,7 +51,7 @@ export default function OrderPage() {
     const [searchValue, setSearchValue] = useState('');
     const [search, setSearch] = useState('');
 
-    const [deliveryDate, setDeliveryDate] = useState('');
+    const [deliveryDate, setDeliveryDate] = useState(null);
 
     // useEffect(() => {
     //     if (selectedCategory) {
@@ -116,6 +117,8 @@ export default function OrderPage() {
 
     const handleProsesAction = (val) => {
         if (val === 'process') {
+            const deliveryDateFormat = `${deliveryDate?.year}-${deliveryDate?.month}-${deliveryDate?.day}`;
+
             const data = {
                 category_id: selectedCategory.id,
                 products: checkoutProducts.map((item) => ({
@@ -124,7 +127,7 @@ export default function OrderPage() {
                 })),
                 user_id: auth()?.id,
                 pickup_date: moment().format('YYYY-MM-DD'),
-                delivery_date: deliveryDate,
+                delivery_date: deliveryDateFormat,
             };
 
             checkoutMutation.mutate(data);
@@ -433,13 +436,11 @@ export default function OrderPage() {
                     <footer className='gap-4 mt-8 flexBetween'>
                         <div className='space-y-2'>
                             <div className='flex items-center'>
-                                <Input
-                                    type='date'
+                                <DatePicker
                                     value={deliveryDate}
-                                    label='Tanggal Pengiriman'
-                                    onChange={(e) =>
-                                        setDeliveryDate(e.target.value)
-                                    }
+                                    onChange={setDeliveryDate}
+                                    inputPlaceholder='Pilih tanggal antar'
+                                    shouldHighlightWeekends
                                 />
                             </div>
                         </div>
