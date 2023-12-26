@@ -138,6 +138,41 @@ export default function SalesDetailModal({ open, toggle, salesId }) {
                             />
                         </div>
                     </header>
+                    <div className='py-4 border-b'>
+                        <table className='w-full text-left'>
+                            <thead>
+                                <tr>
+                                    <th className='p-2 text-sm'>Nama Item</th>
+                                    <th className='p-2 text-sm text-end'>
+                                        Harga
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {salesDetailQuery.data?.sales_detail?.map(
+                                    (item) => (
+                                        <tr
+                                            key={item.id}
+                                            className='text-black odd:bg-gray-100 even:bg-white'
+                                        >
+                                            <td className='p-2 text-sm'>
+                                                {item.product?.name}
+                                            </td>
+                                            <td className='p-2 text-sm text-end'>
+                                                {item.quantity} x{' '}
+                                                {item.amount
+                                                    ? formatRupiah(
+                                                          item.amount,
+                                                          true
+                                                      )
+                                                    : '-'}
+                                            </td>
+                                        </tr>
+                                    )
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
                     <main className='py-2'>
                         <div className='pb-4 border-b'>
                             <div className='py-2 flexBetween'>
@@ -228,7 +263,32 @@ export default function SalesDetailModal({ open, toggle, salesId }) {
                                 </Typography>
                             </div>
                         </div>
-                        <div className='py-4 border-b'>
+                        <div className='py-4'>
+                            <div className='py-2 flexBetween'>
+                                <Typography variant='small'>
+                                    Kategori
+                                </Typography>
+                                <Typography
+                                    variant='small'
+                                    color='blue-gray'
+                                    className='font-semibold capitalize'
+                                >
+                                    {salesDetailQuery.data?.category?.name ||
+                                        '-'}
+                                </Typography>
+                            </div>
+                            <div className='py-2 flexBetween'>
+                                <Typography variant='small'>
+                                    Jumlah Item
+                                </Typography>
+                                <Typography
+                                    variant='small'
+                                    color='blue-gray'
+                                    className='font-semibold capitalize'
+                                >
+                                    {salesDetailQuery.data?.total_item || '-'}
+                                </Typography>
+                            </div>
                             <div className='py-2 flexBetween'>
                                 <Typography variant='small'>
                                     Total Pembayaran
@@ -247,69 +307,6 @@ export default function SalesDetailModal({ open, toggle, salesId }) {
                                         : '-'}
                                 </Typography>
                             </div>
-                            <div className='py-2 flexBetween'>
-                                <Typography variant='small'>
-                                    Jumlah Item
-                                </Typography>
-                                <Typography
-                                    variant='small'
-                                    color='blue-gray'
-                                    className='font-semibold capitalize'
-                                >
-                                    {salesDetailQuery.data?.total_item || '-'}
-                                </Typography>
-                            </div>
-                            <div className='py-2 flexBetween'>
-                                <Typography variant='small'>
-                                    Kategori
-                                </Typography>
-                                <Typography
-                                    variant='small'
-                                    color='blue-gray'
-                                    className='font-semibold capitalize'
-                                >
-                                    {salesDetailQuery.data?.category?.name ||
-                                        '-'}
-                                </Typography>
-                            </div>
-                        </div>
-                        <div className='py-4'>
-                            <table className='w-full text-left'>
-                                <thead>
-                                    <tr>
-                                        <th className='p-2 text-sm'>
-                                            Nama Item
-                                        </th>
-                                        <th className='p-2 text-sm'>Jumlah</th>
-                                        <th className='p-2 text-sm'>Harga</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {salesDetailQuery.data?.sales_detail?.map(
-                                        (item) => (
-                                            <tr
-                                                key={item.id}
-                                                className='text-black odd:bg-gray-100 even:bg-white'
-                                            >
-                                                <td className='p-2 text-sm'>
-                                                    {item.product?.name}
-                                                </td>
-                                                <td className='p-2 text-sm'>
-                                                    {item.quantity} pcs
-                                                </td>
-                                                <td className='p-2 text-sm'>
-                                                    {item.amount
-                                                        ? formatRupiah(
-                                                              item.amount,
-                                                              true
-                                                          )
-                                                        : '-'}
-                                                </td>
-                                            </tr>
-                                        )
-                                    )}
-                                </tbody>
-                            </table>
                         </div>
                     </main>
                 </div>
