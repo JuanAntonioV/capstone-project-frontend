@@ -36,7 +36,6 @@ export default function TransactionHistory() {
 
     const handleViewSalesDetail = (salesId) => {
         setSelectedSalesId(salesId);
-        console.log(salesId);
         toggle(true);
     };
 
