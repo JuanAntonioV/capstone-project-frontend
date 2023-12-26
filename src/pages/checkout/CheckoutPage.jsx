@@ -156,6 +156,21 @@ export default function OrderPage() {
         return () => clearInterval(interval);
     }, [searchValue]);
 
+    const handleNextStepClicked = (index) => {
+        if (index === 0) {
+            setSelectedCategory(null);
+            setActiveStep(0);
+        } else if (index === 1) {
+            if (selectedCategory) {
+                setActiveStep(1);
+            }
+        } else if (index === 2) {
+            if (checkoutProducts.length > 0) {
+                setActiveStep(2);
+            }
+        }
+    };
+
     return (
         <>
             <Dialog
@@ -227,7 +242,7 @@ export default function OrderPage() {
                 >
                     {steps.map((step, i) => (
                         <Step
-                            onClick={() => setActiveStep(i)}
+                            onClick={() => handleNextStepClicked(i)}
                             className='cursor-pointer'
                             key={step.id}
                         >
