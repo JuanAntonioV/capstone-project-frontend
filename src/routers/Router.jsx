@@ -12,6 +12,8 @@ import CategoryPage from '@/pages/category/CategoryPage';
 import ProfilePage from '@/pages/profiles/ProfilePage';
 import AdminPage from '@/pages/admins/AdminPage';
 import TransactionHistory from '@/pages/transactions/TransactionHistory';
+import RoleMiddleware from './RoleMiddleware';
+import { ROLE } from '@/utils/globalEntities';
 
 export default function Router() {
     return (
@@ -35,18 +37,66 @@ export default function Router() {
                     }
                 />
 
-                <Route path='/checkout' element={<CheckoutPage />} />
+                <Route
+                    path='/checkout'
+                    element={
+                        <RequireAuth loginPath='/login'>
+                            <CheckoutPage />
+                        </RequireAuth>
+                    }
+                />
                 <Route
                     path='riwayat-transaksi'
-                    element={<TransactionHistory />}
+                    element={
+                        <RequireAuth loginPath='/login'>
+                            <TransactionHistory />
+                        </RequireAuth>
+                    }
                 />
 
-                <Route path='/settings'>
-                    <Route path='daftar-produk' element={<ProductPage />} />
-                    <Route path='roles' element={<RolePage />} />
-                    <Route path='daftar-kategori' element={<CategoryPage />} />
-                    <Route path='akun-saya' element={<ProfilePage />} />
-                    <Route path='admin' element={<AdminPage />} />
+                <Route element={<RoleMiddleware roles={[ROLE.ADMIN]} />}>
+                    <Route path='/settings'>
+                        <Route
+                            path='daftar-produk'
+                            element={
+                                <RequireAuth loginPath='/login'>
+                                    <ProductPage />
+                                </RequireAuth>
+                            }
+                        />
+                        <Route
+                            path='roles'
+                            element={
+                                <RequireAuth loginPath='/login'>
+                                    <RolePage />
+                                </RequireAuth>
+                            }
+                        />
+                        <Route
+                            path='daftar-kategori'
+                            element={
+                                <RequireAuth loginPath='/login'>
+                                    <CategoryPage />
+                                </RequireAuth>
+                            }
+                        />
+                        <Route
+                            path='akun-saya'
+                            element={
+                                <RequireAuth loginPath='/login'>
+                                    <ProfilePage />
+                                </RequireAuth>
+                            }
+                        />
+                        <Route
+                            path='admin'
+                            element={
+                                <RequireAuth loginPath='/login'>
+                                    <AdminPage />
+                                </RequireAuth>
+                            }
+                        />
+                    </Route>
                 </Route>
             </Route>
 
