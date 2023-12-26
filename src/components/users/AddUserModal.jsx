@@ -60,7 +60,7 @@ export default function AddUserModal({ open, toggle }) {
         <Modal
             open={open}
             toggle={toggle}
-            title='Tambah Produk'
+            title='Tambah User'
             formId='addUserModal'
             loading={createUserQuery.isPending || activeRolesQuery.isPending}
         >
