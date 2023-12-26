@@ -4,6 +4,7 @@ import RetryFetch from '@/components/ui/RetryFetch';
 import SalesStatusChip from '@/components/ui/SalesStatusChip';
 import SectionTitle from '@/components/ui/SectionTitle';
 import MainTable from '@/components/ui/tables/MainTable';
+import { baseURL } from '@/configs/api';
 import useToggle from '@/hooks/useToggle';
 import { formatRupiah } from '@/utils/helpers';
 import { IconButton } from '@material-tailwind/react';
@@ -173,6 +174,7 @@ export default function TransactionHistory() {
                     clearFilter={handleClearFilter}
                     fromDate={fromDate}
                     toDate={toDate}
+                    exportUrl={baseURL + '/export-sales'}
                 />
             </section>
 

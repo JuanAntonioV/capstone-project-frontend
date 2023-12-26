@@ -31,6 +31,7 @@ import {
 } from '@material-tailwind/react';
 import { TbSortAscending, TbSortDescending } from 'react-icons/tb';
 import DatePicker from '@hassanmojab/react-modern-calendar-datepicker';
+import { SiMicrosoftexcel } from 'react-icons/si';
 import moment from 'moment';
 
 export default function MainTable({
@@ -55,6 +56,7 @@ export default function MainTable({
     setFromDate,
     setToDate,
     clearFilter,
+    exportUrl,
 }) {
     const [dataTable, setDataTable] = useState(() => [...data]);
     const [columnFilters, setColumnFilters] = useState([]);
@@ -156,6 +158,13 @@ export default function MainTable({
         setTo(toFilter);
         setFromDate(`${startYear}-${startMonth}-${startDay}`);
         setToDate(`${endYear}-${endMonth}-${endDay}`);
+    };
+
+    const handleOpenExportUrl = () => {
+        const url = `${exportUrl}${fromDate ? `?from=${fromDate}` : ''}${
+            toDate ? `&to=${toDate}` : ''
+        }`;
+        window.open(url, '_blank');
     };
 
     return (
@@ -264,6 +273,18 @@ export default function MainTable({
                                         <span>Filter</span>
                                     </Button>
                                 </div>
+                                {exportUrl && (
+                                    <Button
+                                        variant='outlined'
+                                        color='green'
+                                        fullWidth
+                                        className='flex items-center justify-center gap-4'
+                                        onClick={handleOpenExportUrl}
+                                    >
+                                        <SiMicrosoftexcel size={18} />
+                                        Export Data
+                                    </Button>
+                                )}
                             </PopoverContent>
                         </Popover>
                     )}

@@ -10,7 +10,7 @@ import { Button, Spinner, Typography } from '@material-tailwind/react';
 import RetryFetch from '../ui/RetryFetch';
 import SalesStatusChip from '../ui/SalesStatusChip';
 import CopyText from '../copy/CopyText';
-import StatusChip from '../ui/StatusChip';
+// import StatusChip from '../ui/StatusChip';
 import moment from 'moment';
 import { formatRupiah } from '@/utils/helpers';
 import { SALES_STATUS } from '@/utils/globalEntities';
@@ -174,7 +174,7 @@ export default function SalesDetailModal({ open, toggle, salesId }) {
                         </table>
                     </div>
                     <main className='py-2'>
-                        <div className='pb-4 border-b'>
+                        {/* <div className='pb-4 border-b'>
                             <div className='py-2 flexBetween'>
                                 <Typography variant='small'>
                                     Nama Pelanggan
@@ -211,7 +211,7 @@ export default function SalesDetailModal({ open, toggle, salesId }) {
                                     />
                                 </Typography>
                             </div>
-                        </div>
+                        </div> */}
                         <div className='py-4 border-b'>
                             <div className='py-2 flexBetween'>
                                 <Typography variant='small'>
