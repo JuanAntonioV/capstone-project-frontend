@@ -226,7 +226,7 @@ export default function SalesDetailModal({ open, toggle, salesId }) {
                                         ? moment(
                                               salesDetailQuery.data
                                                   ?.transaction_date
-                                          ).format('DD MMMM YYYY HH:mm:ss')
+                                          ).format('DD MMMM YYYY')
                                         : '-'}
                                 </Typography>
                             </div>
@@ -242,7 +242,7 @@ export default function SalesDetailModal({ open, toggle, salesId }) {
                                     {salesDetailQuery.data?.pickup_date
                                         ? moment(
                                               salesDetailQuery.data?.pickup_date
-                                          ).format('DD MMMM YYYY HH:mm:ss')
+                                          ).format('DD MMMM YYYY')
                                         : '-'}
                                 </Typography>
                             </div>
@@ -258,7 +258,7 @@ export default function SalesDetailModal({ open, toggle, salesId }) {
                                     {salesDetailQuery.data?.delivery_date
                                         ? moment(
                                               salesDetailQuery.data?.pickup_date
-                                          ).format('DD MMMM YYYY HH:mm:ss')
+                                          ).format('DD MMMM YYYY')
                                         : '-'}
                                 </Typography>
                             </div>

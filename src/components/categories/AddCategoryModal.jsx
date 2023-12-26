@@ -7,16 +7,24 @@ import ErrorAlert from '../ui/ErrorAlert';
 import FormGroup from '../ui/FormGroup';
 import { Input } from '@material-tailwind/react';
 import { createCategoryApi } from '@/apis/categoryApi';
+import UploadInput from '../ui/UploadInput';
 
 export default function AddCategoryModal({ open, toggle }) {
     const [form, setForm] = useState({
         name: '',
+        image: null,
     });
 
     const handleChange = (e) => {
         const { name, value } = e.target;
 
-        setForm((prev) => ({ ...prev, [name]: value }));
+        if (name === 'image') {
+            setForm((prev) => ({ ...prev, [name]: e.target.files[0] }));
+            return;
+        } else {
+            setForm((prev) => ({ ...prev, [name]: value }));
+            return;
+        }
     };
 
     const queryClient = useQueryClient();
@@ -45,6 +53,10 @@ export default function AddCategoryModal({ open, toggle }) {
         createCategoryQuery.mutate(payload);
     };
 
+    const handleClearImage = () => {
+        setForm((prev) => ({ ...prev, image: null }));
+    };
+
     return (
         <Modal
             open={open}
@@ -58,6 +70,13 @@ export default function AddCategoryModal({ open, toggle }) {
                     error={createCategoryQuery.error}
                     isError={createCategoryQuery.isError}
                 />
+                <FormGroup>
+                    <UploadInput
+                        formImage={form.image}
+                        onChange={handleChange}
+                        clearImage={handleClearImage}
+                    />
+                </FormGroup>
                 <FormGroup>
                     <Input
                         type='text'

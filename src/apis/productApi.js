@@ -1,7 +1,11 @@
 import api from '@/configs/api';
 
-export const getAllProductsApi = async () => {
-    const res = await api.get('/products');
+export const getAllProductsApi = async ({ status, search }) => {
+    const res = await api.get(
+        `/products${status ? `?status=${status}` : ''}${
+            search ? `&search=${search}` : ''
+        }`
+    );
     return res.data;
 };
 

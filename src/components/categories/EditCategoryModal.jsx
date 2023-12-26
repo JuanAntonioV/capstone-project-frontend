@@ -8,11 +8,13 @@ import RetryFetch from '../ui/RetryFetch';
 import ErrorAlert from '../ui/ErrorAlert';
 import Form from '../ui/Form';
 import FormGroup from '../ui/FormGroup';
+import UploadInput from '../ui/UploadInput';
 
 export default function EditCategoryModal({ open, toggle, categoryId }) {
     const [form, setForm] = useState({
         name: '',
         status: false,
+        image: null,
     });
 
     const handleChange = (e) => {
@@ -20,6 +22,9 @@ export default function EditCategoryModal({ open, toggle, categoryId }) {
 
         if (name === 'status') {
             setForm((prev) => ({ ...prev, [name]: checked }));
+            return;
+        } else if (name === 'image') {
+            setForm((prev) => ({ ...prev, [name]: e.target.files[0] }));
             return;
         } else {
             setForm((prev) => ({ ...prev, [name]: value }));
@@ -65,9 +70,14 @@ export default function EditCategoryModal({ open, toggle, categoryId }) {
             setForm({
                 name: categoryQuery.data.name,
                 status: categoryQuery.data.status,
+                image: categoryQuery.data.image,
             });
         }
     }, [categoryQuery.data]);
+
+    const handleClearImage = () => {
+        setForm((prev) => ({ ...prev, image: null }));
+    };
 
     return (
         <Modal
@@ -93,6 +103,13 @@ export default function EditCategoryModal({ open, toggle, categoryId }) {
                         error={updateCategoryQuery.error}
                         isError={updateCategoryQuery.isError}
                     />
+                    <FormGroup>
+                        <UploadInput
+                            formImage={form.image}
+                            clearImage={handleClearImage}
+                            onChange={handleChange}
+                        />
+                    </FormGroup>
                     <FormGroup>
                         <Input
                             type='text'

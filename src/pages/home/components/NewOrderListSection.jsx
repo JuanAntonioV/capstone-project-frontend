@@ -1,5 +1,6 @@
 import { getAllTransactionApi } from '@/apis/transactionApi';
 import SalesDetailModal from '@/components/sales/SalesDetailModal';
+import RetryFetch from '@/components/ui/RetryFetch';
 import SalesStatusChip from '@/components/ui/SalesStatusChip';
 import SectionTitle from '@/components/ui/SectionTitle';
 import MainTable from '@/components/ui/tables/MainTable';
@@ -15,11 +16,8 @@ import { useNavigate } from 'react-router-dom';
 export default function NewOrderListSection() {
     const navigate = useNavigate();
 
-    const fromDate = moment().startOf('day').format('YYYY-MM-DD HH:mm:ss');
-    const toDate = moment()
-        .add(1, 'day')
-        .endOf('day')
-        .format('YYYY-MM-DD HH:mm:ss');
+    const fromDate = moment().format('YYYY-MM-DD');
+    const toDate = moment().add(1, 'day').format('YYYY-MM-DD');
     const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(1);
     const [open, toggle] = useToggle(false);
@@ -149,18 +147,28 @@ export default function NewOrderListSection() {
                     }
                 />
 
-                <MainTable
-                    columns={columns}
-                    data={rows}
-                    pagination
-                    setPageSize={setLimit}
-                    nextPageAction={handleNextPage}
-                    prevPageAction={handlePrevPage}
-                    canNextPage={canNextPage}
-                    canPreviousPage={canPrevPage}
-                    pageSize={limit}
-                    currentPage={newOrderQuery.data?.page}
-                />
+                {newOrderQuery.isError ? (
+                    <div className='w-full py-16 bg-gray-100 rounded-md'>
+                        <RetryFetch
+                            refetchAction={newOrderQuery.refetch}
+                            text='Terjadi kesalahan saat mengambil data pemesanan terbaru.'
+                        />
+                    </div>
+                ) : (
+                    <MainTable
+                        columns={columns}
+                        data={rows}
+                        pagination
+                        setPageSize={setLimit}
+                        nextPageAction={handleNextPage}
+                        prevPageAction={handlePrevPage}
+                        canNextPage={canNextPage}
+                        canPreviousPage={canPrevPage}
+                        pageSize={limit}
+                        isLoading={newOrderQuery.isPending}
+                        currentPage={newOrderQuery.data?.page}
+                    />
+                )}
             </section>
 
             <SalesDetailModal
