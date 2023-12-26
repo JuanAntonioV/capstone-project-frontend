@@ -419,6 +419,7 @@ export default function MainTable({
                                 onChange={(value) => {
                                     if (setPageSize) {
                                         setPageSize(Number(value));
+                                        table.setPageSize(Number(value));
                                     } else {
                                         table.setPageSize(Number(value));
                                     }

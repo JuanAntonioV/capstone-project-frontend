@@ -101,7 +101,7 @@ export default function OrderPage() {
         onSuccess: (data) => {
             if (data?.status) {
                 queryClient.invalidateQueries('transactionHistory');
-                queryClient.invalidateQueries('newOrder');
+                queryClient.refetchQueries('newOrder');
                 clearCheckout();
                 setActiveStep(0);
                 toast.success('Pesanan berhasil diproses');

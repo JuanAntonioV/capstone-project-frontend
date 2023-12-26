@@ -26,7 +26,7 @@ export default function DashboardLayout({ className = '' }) {
     }
 
     return (
-        <main className={`max-w-7xl px-4 mx-auto ${className}`}>
+        <main className={`max-w-7xl px-4 mx-auto mb-20 ${className}`}>
             <MainNavbar />
             <main className='mt-32'>
                 <Outlet />

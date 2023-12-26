@@ -117,7 +117,7 @@ export default function TransactionHistory() {
         if (transactionHistoryQuery.data?.lastPage === 1) return false;
 
         return page < transactionHistoryQuery.data?.lastPage;
-    }, [page, transactionHistoryQuery.data]);
+    }, [page, transactionHistoryQuery]);
 
     const handlePrevPage = () => {
         if (page <= 1) return;
@@ -159,13 +159,13 @@ export default function TransactionHistory() {
                     pagination
                     setSearch={setSearch}
                     search={search}
-                    setPageSize={setLimit}
                     nextPageAction={handleNextPage}
                     prevPageAction={handlePrevPage}
                     canNextPage={canNextPage}
                     canPreviousPage={canPrevPage}
                     isLoading={transactionHistoryQuery.isPending}
                     pageSize={limit}
+                    setPageSize={setLimit}
                     pageCount={transactionHistoryQuery.data?.lastPage}
                     filterDate
                     setFromDate={setFromDate}
