@@ -39,6 +39,12 @@ export default function NavMenuLists() {
             subMenus: [],
         },
         {
+            title: 'Akun Saya',
+            to: '/akun-saya',
+            roles: [ROLE.USER],
+            subMenus: [],
+        },
+        {
             title: 'Settings',
             to: '/settings',
             roles: [ROLE.ADMIN],

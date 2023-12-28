@@ -53,6 +53,14 @@ export default function Router() {
                         </RequireAuth>
                     }
                 />
+                <Route
+                    path='akun-saya'
+                    element={
+                        <RequireAuth loginPath='/login'>
+                            <ProfilePage />
+                        </RequireAuth>
+                    }
+                />
 
                 <Route element={<RoleMiddleware roles={[ROLE.ADMIN]} />}>
                     <Route path='/settings'>
